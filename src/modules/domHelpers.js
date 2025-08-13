@@ -37,3 +37,15 @@ export function copyToClipboard(text) {
         return Promise.resolve();
     });
 }
+
+export function showErrorPopup(message, duration = 2000) {
+    const popup = document.getElementById('errorPopup');
+    if (!popup) return;
+
+    popup.textContent = message;
+    popup.classList.add('show');
+
+    setTimeout(() => {
+        popup.classList.remove('show');
+    }, duration);
+}

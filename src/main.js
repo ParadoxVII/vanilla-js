@@ -1,8 +1,8 @@
 // Main application logic
-import { textToBinary } from './modules/binaryConverter.js';
-import { updateCharCounter, showTemporaryMessage, copyToClipboard } from './modules/domHelpers.js';
+import { textToBinary, filterValidChars, isValidChar } from './modules/binaryConverter.js';
+import { updateCharCounter, showTemporaryMessage, copyToClipboard, showErrorPopup } from './modules/domHelpers.js';
 
-class BinaryConverter {
+class App {
     constructor() {
         this.textInput = document.getElementById('textInput');
         this.charCount = document.getElementById('charCount');
@@ -16,10 +16,50 @@ class BinaryConverter {
         this.bindEvents();
         this.updateDisplay();
         this.textInput.focus();
-        console.log('🔢 Binary Converter initialized with ES6 modules');
     }
 
     bindEvents() {
+        // Prevent invalid characters from being entered
+        this.textInput.addEventListener('beforeinput', (event) => {
+            if (event.inputType === 'insertText' || event.inputType === 'insertCompositionText') {
+                const inputChar = event.data;
+                if (inputChar && !isValidChar(inputChar)) {
+                    event.preventDefault();
+                    showErrorPopup('Only basic characters allowed');
+                }
+            }
+        });
+
+        // Handle paste events
+        this.textInput.addEventListener('paste', (event) => {
+            event.preventDefault();
+            const paste = event.clipboardData.getData('text');
+            const validPaste = filterValidChars(paste);
+
+            if (validPaste.length !== paste.length) {
+                showErrorPopup('Invalid characters removed from paste');
+            }
+
+            // Insert valid characters at cursor position
+            const start = this.textInput.selectionStart;
+            const end = this.textInput.selectionEnd;
+            const currentValue = this.textInput.value;
+            const newValue = currentValue.slice(0, start) + validPaste + currentValue.slice(end);
+
+            // Respect max length
+            if (newValue.length <= this.maxLength) {
+                this.textInput.value = newValue;
+                this.textInput.setSelectionRange(start + validPaste.length, start + validPaste.length);
+            } else {
+                const truncated = newValue.slice(0, this.maxLength);
+                this.textInput.value = truncated;
+                this.textInput.setSelectionRange(this.maxLength, this.maxLength);
+                showErrorPopup('Text truncated to 28 characters');
+            }
+
+            this.updateDisplay();
+        });
+
         // Real-time conversion
         this.textInput.addEventListener('input', () => this.updateDisplay());
 
@@ -43,12 +83,26 @@ class BinaryConverter {
         const inputText = this.textInput.value;
         const currentLength = inputText.length;
 
-        // Update character counter
-        updateCharCounter(currentLength, this.maxLength, this.charCount);
+        // Check for invalid characters (emojis, Unicode beyond 8-bit)
+        const validText = filterValidChars(inputText);
+        const hasInvalidChars = validText.length !== inputText.length;
+
+        // If invalid characters were found, update input to only valid chars
+        if (hasInvalidChars) {
+            // Update input value to filtered version
+            const cursorPos = this.textInput.selectionStart;
+            this.textInput.value = validText;
+            // Try to maintain cursor position
+            this.textInput.setSelectionRange(cursorPos - (inputText.length - validText.length), cursorPos - (inputText.length - validText.length));
+        }
+
+        // Update character counter with valid text length
+        const validLength = validText.length;
+        updateCharCounter(validLength, this.maxLength, this.charCount);
 
         // Convert and display binary
-        if (inputText) {
-            const binary = textToBinary(inputText);
+        if (validText) {
+            const binary = textToBinary(validText);
             this.binaryResult.textContent = binary;
             this.binaryResult.classList.add('has-content');
             this.binaryResult.classList.remove('empty');
@@ -77,5 +131,5 @@ class BinaryConverter {
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new BinaryConverter();
+    new App();
 });
