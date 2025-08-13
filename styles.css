@@ -143,6 +143,34 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
+/* Radial Star Grid Styles */
+.radial-grid {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#starSvg {
+    width: 200px;
+    height: 200px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+}
+
+.star-ray {
+    stroke: #666;
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: all 0.3s ease;
+}
+
+.star-center {
+    fill: #333;
+    r: 3;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
     body {
@@ -165,5 +193,14 @@ body {
     .binary-result {
         font-size: 0.85rem;
         padding: 16px;
+    }
+
+    #starSvg {
+        width: 160px;
+        height: 160px;
+    }
+
+    .star-ray {
+        stroke-width: 1.5;
     }
 }

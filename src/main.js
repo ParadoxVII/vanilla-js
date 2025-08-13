@@ -1,13 +1,18 @@
 // Main application logic
 import { textToBinary, filterValidChars, isValidChar } from './modules/binaryConverter.js';
 import { updateCharCounter, showTemporaryMessage, copyToClipboard, showErrorPopup } from './modules/domHelpers.js';
+import { createRadialStarGrid } from './modules/radialGrid.js';
 
 class App {
     constructor() {
         this.textInput = document.getElementById('textInput');
         this.charCount = document.getElementById('charCount');
         this.binaryResult = document.getElementById('binaryResult');
+        this.starSvg = document.getElementById('starSvg');
         this.maxLength = 28;
+
+        // Initialize radial star grid
+        this.radialGrid = createRadialStarGrid(this.starSvg);
 
         this.init();
     }
@@ -65,18 +70,6 @@ class App {
 
         // Copy functionality
         this.binaryResult.addEventListener('click', () => this.handleCopy());
-
-        // Keyboard shortcuts
-        this.textInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                this.textInput.value = '';
-                this.updateDisplay();
-            }
-            if ((event.metaKey || event.ctrlKey) && event.key === 'a') {
-                event.preventDefault();
-                this.textInput.select();
-            }
-        });
     }
 
     updateDisplay() {
@@ -113,6 +106,9 @@ class App {
             this.binaryResult.classList.add('empty');
             this.binaryResult.title = '';
         }
+
+        // Challenge 1: Update radial star grid based on character count
+        this.radialGrid.createStar(validLength);
     }
 
     async handleCopy() {
