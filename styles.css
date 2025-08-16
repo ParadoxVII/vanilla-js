@@ -167,11 +167,6 @@ body {
     transition: all 0.3s ease;
 }
 
-.star-center {
-    fill: #333;
-    r: 2;
-}
-
 /* Binary segment styles for Challenge 2 */
 .binary-segment {
     stroke-width: 2;

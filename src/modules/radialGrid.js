@@ -4,7 +4,7 @@ export class RadialStarGrid {
         this.svg = svgElement;
         this.centerX = 100; // Center of 200x200 viewBox
         this.centerY = 100;
-        this.innerRadius = 20; // Start of rays
+        this.innerRadius = 10; // Start of rays
         this.outerRadius = 80; // End of rays
         this.maxRays = 28; // Maximum number of characters
 
@@ -14,29 +14,11 @@ export class RadialStarGrid {
     init() {
         // Clear any existing content
         this.svg.innerHTML = '';
-
-        // Add center dot
-        this.addCenterDot();
     }
 
-    addCenterDot() {
-        const center = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        center.setAttribute('cx', this.centerX);
-        center.setAttribute('cy', this.centerY);
-        center.setAttribute('class', 'star-center');
-        this.svg.appendChild(center);
-    }
-
-    // Complete clear - removes everything except center dot
+    // Complete clear - removes everything
     clearRays() {
-        // Keep only the center dot
-        const centerDot = this.svg.querySelector('.star-center');
         this.svg.innerHTML = '';
-        if (centerDot) {
-            this.svg.appendChild(centerDot);
-        } else {
-            this.addCenterDot();
-        }
     }
 
     // Challenge 2: Create binary-mapped rays with line segments
@@ -154,13 +136,11 @@ export class RadialStarGrid {
     getDebugInfo() {
         const rays = this.svg.querySelectorAll('.star-ray').length;
         const segments = this.svg.querySelectorAll('.binary-segment').length;
-        const center = this.svg.querySelectorAll('.star-center').length;
 
         return {
             rays: rays,
             segments: segments,
-            center: center,
-            total: rays + segments + center
+            total: rays + segments
         };
     }
 }
