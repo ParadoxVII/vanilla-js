@@ -147,6 +147,7 @@ body {
 .radial-grid {
     margin-top: 2rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -168,10 +169,27 @@ body {
 
 .star-center {
     fill: #333;
-    r: 3;
+    r: 2;
 }
 
-/* Responsive Design */
+/* Binary segment styles for Challenge 2 */
+.binary-segment {
+    stroke-width: 2;
+    stroke-linecap: none;
+    transition: all 0.3s ease;
+}
+
+.binary-segment.bit-one {
+    stroke: #1a1a1a;
+    /* Black for 1 */
+}
+
+.binary-segment.bit-zero {
+    stroke: #f8f9fa;
+    /* Light gray for 0 */
+}
+
+/* Responsive design for radial grid */
 @media (max-width: 480px) {
     body {
         padding: 1rem;
@@ -202,5 +220,9 @@ body {
 
     .star-ray {
         stroke-width: 1.5;
+    }
+
+    .binary-segment {
+        stroke-width: 2.5;
     }
 }

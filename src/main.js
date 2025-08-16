@@ -100,15 +100,18 @@ class App {
             this.binaryResult.classList.add('has-content');
             this.binaryResult.classList.remove('empty');
             this.binaryResult.title = 'Click to copy';
+
+            // Update radial grid with binary mapping
+            this.radialGrid.createBinaryMappedStar(validText, binary);
         } else {
             this.binaryResult.textContent = 'Start typing to see binary...';
             this.binaryResult.classList.remove('has-content');
             this.binaryResult.classList.add('empty');
             this.binaryResult.title = '';
-        }
 
-        // Challenge 1: Update radial star grid based on character count
-        this.radialGrid.createStar(validLength);
+            // Clear radial grid
+            this.radialGrid.clearRays();
+        }
     }
 
     async handleCopy() {
