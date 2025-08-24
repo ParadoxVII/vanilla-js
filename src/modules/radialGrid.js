@@ -4,9 +4,9 @@ export class RadialStarGrid {
         this.svg = svgElement;
         this.centerX = 100; // Center of 200x200 viewBox
         this.centerY = 100;
-        this.innerRadius = 10; // Start of rays
+        this.innerRadius = 4; // Start of rays
         this.outerRadius = 80; // End of rays
-        this.maxRays = 28; // Maximum number of characters
+        this.maxRays = 32; // Maximum number of characters
 
         this.init();
     }

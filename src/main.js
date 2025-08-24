@@ -9,7 +9,7 @@ class App {
         this.charCount = document.getElementById('charCount');
         this.binaryResult = document.getElementById('binaryResult');
         this.starSvg = document.getElementById('starSvg');
-        this.maxLength = 28;
+        this.maxLength = 32;
 
         // Initialize radial star grid
         this.radialGrid = createRadialStarGrid(this.starSvg);
@@ -59,7 +59,7 @@ class App {
                 const truncated = newValue.slice(0, this.maxLength);
                 this.textInput.value = truncated;
                 this.textInput.setSelectionRange(this.maxLength, this.maxLength);
-                showErrorPopup('Text truncated to 28 characters');
+                showErrorPopup('Text truncated to 32 characters');
             }
 
             this.updateDisplay();

@@ -1,4 +1,5 @@
 // Binary conversion utilities
+import { mapTextToCustomBinary } from './lookupMapper.js';
 
 // Check if a character can be represented in 8 bits (0-255)
 export function isValidChar(char) {
@@ -20,6 +21,11 @@ export function textToBinary(text) {
     // Filter out invalid characters first
     const validText = filterValidChars(text);
 
+    // Use custom mapping function (falls back to 8-bit conversion when mapper
+    // returns an empty string or no codes matched).
+    const mapped = mapTextToCustomBinary(validText);
+    if (mapped && mapped.length > 0) return mapped;
+    // Fallback to original 8-bit conversion
     return validText
         .split('')
         .map(char => char.charCodeAt(0).toString(2).padStart(8, '0'))

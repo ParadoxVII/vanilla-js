@@ -6,7 +6,7 @@ A clean, minimalist text-to-binary converter built with vanilla JavaScript and E
 
 - **Real-time conversion** - Binary updates as you type
 - **Clean, professional UI** - Minimalist design showcasing vanilla JS elegance
-- **28 character limit** - Perfect for short text conversion
+- **32 character limit** - Perfect for short text conversion
 - **Click to copy** - Easy clipboard functionality
 - **Keyboard shortcuts** - Escape to clear, Cmd/Ctrl+A to select all
 - **Responsive design** - Works on desktop and mobile
