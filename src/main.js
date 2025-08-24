@@ -30,7 +30,7 @@ class App {
                 const inputChar = event.data;
                 if (inputChar && !isValidChar(inputChar)) {
                     event.preventDefault();
-                    showErrorPopup('Only basic characters allowed');
+                    showErrorPopup('Allowed: a-z, 1-6, space and dot');
                 }
             }
         });
